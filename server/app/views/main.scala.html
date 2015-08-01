@@ -1,0 +1,29 @@
+@(title: String)(content: Html)
+
+@import play.api.Play
+
+<!DOCTYPE html>
+
+@*In order to make JS method calls in HTML optimised JS files must be added as libarary scopes from their target
+compilation location to the view folder. Be sure to include playscalajs.html.selectScript(projectname,route/folder) or
+they wont work at all...*@
+<html>
+  <head>
+    <title>@title</title>
+    <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
+    <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  </head>
+  <body>
+      <div id="divTest2"></div>
+    <button id="click-me-button" type="button" onclick="example.ScalaJSExample().addClickedMessage()">Click me!</button>
+
+    <ul id="attach">
+      <li>Hello World below?</li>
+    </ul>
+    @content
+      <!-- Here is where you add the scripts in the client folder written in Scala.JS -->
+    @playscalajs.html.selectScript("client","/assets")
+    <script type="text/javascript">example.ScalaJSExample().appendPar(document.getElementById("attach").lastElementChild, "Hello World")</script>
+  </body>
+</html>
